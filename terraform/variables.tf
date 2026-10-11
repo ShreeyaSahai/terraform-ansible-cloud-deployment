@@ -22,7 +22,7 @@ variable "instance_count" {
 variable "instance_type" {
   description = "EC2 instance type"
   type        = string
-  default     = "t2.micro"
+  default     = "t3.micro"
 }
 
 # AWS EC2 key-pair name.
