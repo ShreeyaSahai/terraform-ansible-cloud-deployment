@@ -6,7 +6,6 @@
 crash.log
 crash.*.log
 *.tfplan
-.terraform.lock.hcl
 
 # Terraform variable files may contain sensitive values
 *.tfvars

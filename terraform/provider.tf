@@ -13,5 +13,5 @@ terraform {
 # Configure the AWS provider to use the selected region.
 # Credentials are read from the AWS CLI configuration.
 provider "aws" {
-  region = "us-east-1"
+  region = var.aws_region
 }
