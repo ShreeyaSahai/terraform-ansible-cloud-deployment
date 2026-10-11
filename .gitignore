@@ -1,0 +1,33 @@
+# Terraform working files
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+crash.log
+crash.*.log
+*.tfplan
+.terraform.lock.hcl
+
+# Terraform variable files may contain sensitive values
+*.tfvars
+!terraform.tfvars.example
+*.auto.tfvars
+
+# Private SSH keys
+*.pem
+*.key
+id_rsa
+id_ed25519
+
+# AWS credentials
+.aws/
+credentials
+.env
+
+# Ansible temporary files
+*.retry
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+.vscode/
