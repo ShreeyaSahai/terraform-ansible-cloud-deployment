@@ -1,0 +1,17 @@
+# AWS region for the deployment.
+aws_region = "us-east-1"
+
+# This project requires exactly two EC2 instances.
+instance_count = 2
+
+# Confirm current Free Tier eligibility before deployment.
+instance_type = "t2.micro"
+
+# AWS EC2 key-pair name.
+key_name = "terraform-ansible-key"
+
+# Private key filename generated locally by Terraform.
+private_key_file = "terraform-ansible-key.pem"
+
+# Project name used in resource tags.
+project_name = "terraform-ansible-cloud-deployment"
