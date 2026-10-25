@@ -1,53 +1,300 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terraform and Ansible Cloud Deployment</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f2f5f9;
-            color: #222;
-            text-align: center;
-            padding: 40px 20px;
-        }
-        .card {
-            background: white;
-            max-width: 700px;
-            margin: auto;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        h1 { color: #1769aa; }
-        h2 { color: #333; }
-        .status { color: #218838; font-weight: bold; }
-        .details {
-            background: #f2f5f9;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1020">
+  <title>CloudDeploy | Infrastructure Dashboard</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b1020;
+      --panel: #131b2e;
+      --border: #293650;
+      --muted: #9eacc5;
+      --text: #edf3ff;
+      --blue: #76a9ff;
+      --green: #4adea0;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at 80% 0%, #1c3155 0, transparent 38%),
+        var(--bg);
+      color: var(--text);
+      font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+
+    .container {
+      width: min(1080px, calc(100% - 36px));
+      margin: auto;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 26px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -.04em;
+    }
+
+    .brand span { color: var(--blue); }
+
+    .pill {
+      border: 1px solid #236b50;
+      border-radius: 999px;
+      padding: 6px 12px;
+      color: var(--green);
+      background: #123126;
+      font-size: .85rem;
+      white-space: nowrap;
+    }
+
+    main { padding: 54px 0; }
+
+    .eyebrow {
+      color: var(--blue);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin: 12px 0;
+      font-size: clamp(2.1rem, 5vw, 3.7rem);
+      line-height: 1.1;
+      letter-spacing: -.055em;
+    }
+
+    .intro {
+      max-width: 650px;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin: 28px 0;
+    }
+
+    .card {
+      min-width: 0;
+      padding: 22px;
+      background: rgba(19, 27, 46, .92);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .value {
+      margin-top: 8px;
+      font-size: 1.25rem;
+      font-weight: 750;
+      overflow-wrap: anywhere;
+    }
+
+    .green { color: var(--green); }
+    .blue { color: var(--blue); }
+
+    h2 {
+      margin: 0 0 16px;
+      font-size: 1.15rem;
+    }
+
+    .server-details {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .detail {
+      padding: 14px;
+      background: #0d1425;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .detail strong {
+      display: block;
+      margin-top: 5px;
+      font-size: 1rem;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .step {
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .step-number {
+      color: var(--blue);
+      font-size: .8rem;
+      font-weight: 800;
+    }
+
+    .step h3 { margin: 4px 0; font-size: 1rem; }
+    .step p { margin: 0; color: var(--muted); font-size: .9rem; }
+
+    .team {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .member {
+      flex: 1 1 160px;
+      padding: 14px;
+      background: #0d1425;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .member strong { display: block; }
+    .member span { color: var(--muted); font-size: .88rem; }
+
+    footer {
+      padding: 24px 0 36px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      font-size: .85rem;
+    }
+
+    @media (max-width: 720px) {
+      main { padding-top: 36px; }
+      .grid { grid-template-columns: 1fr; }
+      .server-details, .steps { grid-template-columns: 1fr; }
+      header { align-items: flex-start; }
+    }
+  </style>
 </head>
 <body>
-    <div class="card">
-        <h1>Deployment Status</h1>
-        <h2>Infrastructure as Code Based Cloud Deployment</h2>
+  <div class="container">
+    <header>
+      <div class="brand">Cloud<span>Deploy</span></div>
+      <div class="pill">● Server page loaded</div>
+    </header>
 
-        <p class="status">Website deployed successfully!</p>
+    <main>
+      <div class="eyebrow">Infrastructure as Code · AWS</div>
+      <h1>Your cloud infrastructure, in one place.</h1>
+      <p class="intro">
+        A simple deployment dashboard powered by Terraform, Ansible,
+        Ubuntu and Nginx. Each server displays its own information.
+      </p>
 
-        <h3>Team Members</h3>
-        <p>Name1 | Name2 | Name3</p>
+      <section class="grid" aria-label="Project overview">
+        <article class="card">
+          <div class="label">Web server</div>
+          <div class="value green">Nginx</div>
+          <div class="label">Web server software</div>
+        </article>
+        <article class="card">
+          <div class="label">Infrastructure</div>
+          <div class="value blue">Terraform</div>
+          <div class="label">Infrastructure provisioning</div>
+        </article>
+        <article class="card">
+          <div class="label">Configuration</div>
+          <div class="value blue">Ansible</div>
+          <div class="label">Automated server setup</div>
+        </article>
+      </section>
 
-        <div class="details">
-            <h3>Server Information</h3>
-            <p><strong>Hostname:</strong> {{ ansible_hostname }}</p>
-            <p><strong>Server IP:</strong> {{ ansible_host | default(ansible_default_ipv4.address) }}</p>
+      <section class="card" style="margin-bottom:20px">
+        <h2>Current server</h2>
+        <div class="server-details">
+          <div class="detail">
+            <span class="label">Hostname</span>
+            <strong>{{ ansible_hostname | default('Unknown') }}</strong>
+          </div>
+          <div class="detail">
+            <span class="label">Public IP / connection address</span>
+            <strong>{{ ansible_host | default('Not available') }}</strong>
+          </div>
+          <div class="detail">
+            <span class="label">Operating system</span>
+            <strong>{{ ansible_distribution | default('Ubuntu') }}
+              {{ ansible_distribution_version | default('') }}</strong>
+          </div>
+          <div class="detail">
+            <span class="label">Deployment method</span>
+            <strong>Terraform + Ansible</strong>
+          </div>
         </div>
+      </section>
 
-        <p>Provisioned with Terraform, configured with Ansible.</p>
-    </div>
+      <section class="card" style="margin-bottom:20px">
+        <h2>Deployment workflow</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">01 / PROVISION</div>
+            <h3>Terraform</h3>
+            <p>Defines the AWS infrastructure and EC2 instances.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">02 / CONFIGURE</div>
+            <h3>Ansible</h3>
+            <p>Connects over SSH and installs and configures Nginx.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">03 / DEPLOY</div>
+            <h3>Website template</h3>
+            <p>Deploys this page using Ansible and Jinja2.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">04 / ACCESS</div>
+            <h3>Web browser</h3>
+            <p>Serves the page over HTTP on port 80.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Project team</h2>
+        <div class="team">
+          <div class="member">
+            <strong>Siddhant Vashishtha</strong>
+            <span>Registration No: 23FE10CSE00597</span>
+          </div>
+          <div class="member">
+            <strong>Rishit Lathia</strong>
+            <span>Registration No: 23FE10CSE00680</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      Infrastructure as Code Based Cloud Deployment using Terraform and Ansible
+      <br>
+      Provisioned with Terraform · Configured with Ansible
+    </footer>
+  </div>
 </body>
 </html>
