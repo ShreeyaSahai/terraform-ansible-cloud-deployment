@@ -43,7 +43,7 @@ resource "aws_security_group" "web" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["115.245.68.162/32"]
+    cidr_blocks = ["202.131.155.170/32"]
   }
 
   ingress {
@@ -98,7 +98,7 @@ resource "aws_instance" "web" {
 
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.instance_type
-  subnet_id                   = data.aws_subnets.default.ids[count.index % length(data.aws_subnets.default.ids)]
+  subnet_id                   = "subnet-0cd4c11b4d8239871"
   vpc_security_group_ids      = [aws_security_group.web.id]
   key_name                    = aws_key_pair.web.key_name
   associate_public_ip_address = true
