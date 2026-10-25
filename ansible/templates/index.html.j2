@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terraform and Ansible Cloud Deployment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f5f9;
+            color: #222;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .card {
+            background: white;
+            max-width: 700px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 { color: #1769aa; }
+        h2 { color: #333; }
+        .status { color: #218838; font-weight: bold; }
+        .details {
+            background: #f2f5f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Deployment Status</h1>
+        <h2>Infrastructure as Code Based Cloud Deployment</h2>
+
+        <p class="status">Website deployed successfully!</p>
+
+        <h3>Team Members</h3>
+        <p>Name1 | Name2 | Name3</p>
+
+        <div class="details">
+            <h3>Server Information</h3>
+            <p><strong>Hostname:</strong> {{ ansible_hostname }}</p>
+            <p><strong>Server IP:</strong> {{ ansible_host | default(ansible_default_ipv4.address) }}</p>
+        </div>
+
+        <p>Provisioned with Terraform, configured with Ansible.</p>
+    </div>
+</body>
+</html>
